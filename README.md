@@ -1,97 +1,18 @@
-# medium-consul-palo-alto-nia
+# Multi-Cloud-Security-Deployment with Consul Terraform Sync and Palo Alto-consul-palo-alto-nia
 
-The follow repo builds an event-driven architecture that allows you to play with Vault, Consul, Boundary and delever a automation/zero-trust security solution to manage Palo Alto address groups based on what servers are registred and online in Consul.
+The following repo will demo the following:
+* Build a multi-cloud environment in Azure, GCP and AWS
+* Deploy Central Panorama to Manage multiple Palo Alto Firewalls
+* Deploy HashiCorp Vault for secrets management/Identity Broker
+* Deploy Consul with Consul Terraform Sync to Automate Network infrastructure
+* Deploy Boundary to Provide Secure External Acceess to our Apps/FW/Services across the clouds
+* Use Terraform to build out the infrastructure
 
+The objective of the code/demo is to provide an example on how to deploy and manage security policies in a Zero Day world. As new apps and services get deployed, we want the Consul-Terraform-Sync to automtaically build a Terraform Manifest and update the policies on all our Palo Alto PAN-OS devices. 
 
 ![title](./images/consulnia.png)
 
-
-## Prerequisites 
-
-* Azure cloud subscrition
-* Terraform installed on your machine to initiate the code
-* Azure CLI
-
-## How to start 
-
-1. Log into your azure environment and get a subscription ```az account list ``` 
-2. Need to accept the Azure Palo Alto marketpalce terms, replace MYSUB with your subscription ID
-
-```
-az vm image terms accept --publisher paloaltonetworks --offer vmseries-flex --plan bundle1 --subscription MYSUB
-az vm image terms accept --publisher paloaltonetworks --offer panorama --plan payg --subscription MYSUB
-```
+![workflow](./images/workflow.png)
 
 
-3. Install terraform  (brew install terraform)
-
-### Download the repo
-Pull the code from the repo 
-
-``` 
-git clone https://github.com/maniak-academy/medium-consul-palo-alto-nia.git
-```
-
-## Build the infrastructure
-----------------------------------
-
-### Deploy the Infrastrutre
-
-1. First you will need to jump into the build-infra directory 
-
-``` cd  01-deploy-infra ```
-
-Run Terraform
-
-```
-terraform init
-terraform plan
-terraform apply 
-```
-
-2. The output will give you all the information to access all the devices
-
-### Configure the Infrastrutre
-
-1. First you will need to jump into the configure-infra directory 
-
-``` cd  02-configure-infra ```
-
-Run Terraform
-
-```
-terraform init
-terraform plan
-terraform apply 
-```
-
-
-
-### Deploy Apps
-
-1. First you will need to jump into the deploy-apps directory 
-
-``` cd  03-deploy-apps ```
-
-Run Terraform
-
-```
-terraform init
-terraform plan
-terraform apply 
-```
-
-
-### Deploy Network Infrastructure Automation
-
-1. First you will need to jump into the network automation directory 
-
-``` cd  04-network-automation ```
-
-Run Terraform
-
-```
-terraform init
-terraform plan
-terraform apply 
-```
+More to come soon..

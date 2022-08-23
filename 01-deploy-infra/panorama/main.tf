@@ -1,14 +1,14 @@
 resource "random_id" "suffix" {
-  byte_length = 4
+  byte_length = 3
 }
 
-resource "random_integer" "panoramapassword-length" {
+resource "random_integer" "panopass-length" {
   min = 12
   max = 25
 }
 
-resource "random_password" "panoramapassword" {
-  length           = random_integer.panoramapassword-length.result
+resource "random_password" "panopass" {
+  length           = random_integer.panopass-length.result
   min_upper        = 1
   min_lower        = 1
   min_numeric      = 1
@@ -17,77 +17,77 @@ resource "random_password" "panoramapassword" {
   override_special = "_%!"
 }
 
-resource "azurerm_storage_account" "panorama_stg_ac" {
-  name                     = "panorama_stg_ac${random_id.suffix.dec}"
+resource "azurerm_storage_account" "panstgac" {
+  name                     = "panstgac${random_id.suffix.dec}"
   location                 = var.location
   resource_group_name      = var.resource_group_name
   account_replication_type = "LRS"
   account_tier             = "Standard"
 }
 
-resource "azurerm_public_ip" "panorama_public_ip" {
-  name                = "panorama_public_ip-${random_id.suffix.dec}"
+resource "azurerm_public_ip" "pano_public_ip" {
+  name                = "panopublicip${random_id.suffix.dec}"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
-  domain_name_label   = "panorama_public_ip-${random_id.suffix.dec}"
+  domain_name_label   = "pano${random_id.suffix.dec}"
 }
 
 
-resource "azurerm_network_interface" "panorama_vnic" {
-  name                = "panorama_vnic-${random_id.suffix.dec}"
+resource "azurerm_network_interface" "pano_vnic" {
+  name                = "panovnic${random_id.suffix.dec}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  depends_on          = [azurerm_public_ip.panorama_public_ip]
+  depends_on          = [azurerm_public_ip.pano_public_ip]
 
   ip_configuration {
-    name                          = "panorama_ip"
+    name                          = "panoip"
     subnet_id                     = var.consul_subnet
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.panorama_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.pano_public_ip.id
   }
 
   tags = {
-    displayName = "panorama_vnic"
+    displayName = "pano_vnic"
   }
 }
 
 
-resource "azurerm_virtual_machine" "panorama_vm" {
-  name                = "panorama_vm-${random_id.suffix.dec}"
+resource "azurerm_virtual_machine" "pano_vm" {
+  name                = "pano${random_id.suffix.dec}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  vm_size             = var.panorama_size
+  vm_size             = var.pano_size
 
-  depends_on = [azurerm_network_interface.panorama_vnic]
+  depends_on = [azurerm_network_interface.pano_vnic]
   plan {
-    name      = var.panorama_sku
-    publisher = var.panorama_publisher
-    product   = var.panorama_offer
+    name      = var.pano_sku
+    publisher = var.pano_publisher
+    product   = var.pano_offer
   }
 
   storage_image_reference {
-    publisher = var.panorama_publisher
-    offer     = var.panorama_offer
-    sku       = var.panorama_sku
+    publisher = var.pano_publisher
+    offer     = var.pano_offer
+    sku       = var.pano_sku
     version   = "latest"
   }
 
   storage_os_disk {
-    name          = "panorama_vm-${random_id.suffix.dec}-osDisk"
-    vhd_uri       = "${azurerm_storage_account.panorama_stg_ac.primary_blob_endpoint}vhds/panorama_vm-${random_id.suffix.dec}-${var.panorama_offer}-${var.panorama_sku}.vhd"
+    name          = "panovm${random_id.suffix.dec}-osDisk"
+    vhd_uri       = "${azurerm_storage_account.panstgac.primary_blob_endpoint}vhds/panovm${random_id.suffix.dec}-${var.pano_offer}-${var.pano_sku}.vhd"
     caching       = "ReadWrite"
     create_option = "FromImage"
   }
 
   os_profile {
-    computer_name  = "panorama_vm-${random_id.suffix.dec}"
-    admin_username = var.panorama_username
-    admin_password = random_password.panoramapassword.result
+    computer_name  = "panovm${random_id.suffix.dec}"
+    admin_username = var.pano_username
+    admin_password = random_password.panopass.result
   }
 
-  primary_network_interface_id = azurerm_network_interface.panorama_vnic.id
-  network_interface_ids        = [azurerm_network_interface.panorama_vnic.id]
+  primary_network_interface_id = azurerm_network_interface.pano_vnic.id
+  network_interface_ids        = [azurerm_network_interface.pano_vnic.id]
 
   os_profile_linux_config {
     disable_password_authentication = false

@@ -1,11 +1,11 @@
-output "panorama_username" {
-  value = var.panorama_username
+output "pano_username" {
+  value = var.pano_username
 }
 
-output "panorama_password" {
-  value = random_password.panoramapassword.result
+output "pano_password" {
+  value = random_password.panopass.result
 }
 
-output "panorama_ip" {
-  value = azurerm_public_ip.panorama_public_ip.ip_address
+output "pano_ip" {
+  value = azurerm_public_ip.pano_public_ip.ip_address
 }

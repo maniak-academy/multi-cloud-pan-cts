@@ -16,6 +16,19 @@ output "vault_ip" {
   value = module.sharedservices.vault_ip
 }
 
+output "pano_mgmt_ip" {
+  value = "https://${module.panorama.pano_ip}"
+}
+output "pano_username" {
+  value = module.panorama.pano_username
+}
+
+output "pano_password" {
+  value = module.panorama.pano_password
+  sensitive = true
+}
+
+
 # output "pa_username" {
 #   value = module.pan-os.pa_username
 # }

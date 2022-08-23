@@ -66,6 +66,4 @@ variable "securemgmt_subnet" {}
 variable "public_subnet" {}
 variable "private_subnet" {}
 
-variable "owner" {
-  
-}
+variable "owner" {}

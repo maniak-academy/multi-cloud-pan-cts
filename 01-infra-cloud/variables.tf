@@ -14,12 +14,15 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "web_count" {
-    default = "1"
+variable "region" {
+  description = "The AWS region to use."
+  default     = "us-east-2"
+  type        = string
 }
-variable "app_count" {
-    default = "1"
-}
-variable "db_count" {
-    default = "1"
+
+variable "environment" {
+  description = "The environment name to use."
+  default     = "dev"
+  type        = string
+
 }

@@ -1,13 +1,10 @@
-
 data "terraform_remote_state" "environment" {
   backend = "local"
 
   config = {
-    path = "../01-infra-cloud/terraform.tfstate"
+    path = "../01-deploy-infra/terraform.tfstate"
   }
 }
-
-
 
 module "web-tier" {
   source = "./web-tier"

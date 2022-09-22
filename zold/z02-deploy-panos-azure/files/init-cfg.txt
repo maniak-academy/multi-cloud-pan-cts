@@ -1,0 +1,6 @@
+type=dhcp-client; op-command-modes=jumbo-frame;
+vm-auth-key=353532767351718
+panorama-server=20.118.98.21
+tplname=pantemplate
+dgname=my-device-group
+dns-primary=8.8.8.8

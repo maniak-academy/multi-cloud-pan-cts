@@ -68,7 +68,7 @@ sudo chmod 640 /etc/consul.d/consul.hcl
 cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
 datacenter = "AcademyDC1"
-bind_addr = "{{ GetPrivateInterfaces | include \"network\" \"10.2.0.0/24\" | attr \"address\" }}"
+bind_addr = "{{ GetPrivateInterfaces | include \"network\" \"10.0.2.0/24\" | attr \"address\" }}"
 retry_join = ["${consul_server_ip}"]
 EOF
 

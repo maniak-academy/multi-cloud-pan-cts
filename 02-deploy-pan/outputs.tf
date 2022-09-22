@@ -8,9 +8,9 @@ output "vault" {
 }
 
 
-# output "consul" {
-#     value = data.terraform_remote_state.environment.outputs.consullb
-# }
+output "consul" {
+    value = data.terraform_remote_state.environment.outputs.consullb
+}
 
 # output "username" {
 #     value = module.vmseries.username
@@ -23,9 +23,10 @@ output "vault" {
 #     value = module.vmseries.vmseries_mgmt_ip
 # }
 
-output "pan-mgmt-public" {
+output "pan-azure-mgmt-public" {
     value = "https://${module.vmseries.mgmt_ip_address}"
 }
+
 
 output "a-Vault-Credentials" {
     value = "To log into vault the token/password = root"

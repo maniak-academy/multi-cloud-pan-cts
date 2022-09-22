@@ -2,7 +2,7 @@
 provider "panos" {
   hostname = "20.118.98.21"
   username = "panadmin"
-  password = "dddddd"
+  password = ""
 }
 
 resource "panos_panorama_template_stack" "stack" {

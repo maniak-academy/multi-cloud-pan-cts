@@ -27,17 +27,17 @@ module "app-network" {
 }
 
 
-# # VNET Peering between secure and app vnet
-# resource "azurerm_virtual_network_peering" "secureTOapp" {
-#   name                      = "secureTOapp"
-#   resource_group_name       = var.resource_group_name
-#   virtual_network_name      = "secure-network"
-#   remote_virtual_network_id = module.app-network.vnet_id
-# }
+# VNET Peering between secure and app vnet
+resource "azurerm_virtual_network_peering" "secureTOapp" {
+  name                      = "secureTOapp"
+  resource_group_name       = var.resource_group_name
+  virtual_network_name      = "secure-network"
+  remote_virtual_network_id = module.app-network.vnet_id
+}
 
-# resource "azurerm_virtual_network_peering" "appTOsecure" {
-#   name                      = "appTOsecure"
-#   resource_group_name       = var.resource_group_name
-#   virtual_network_name      = "app-network"
-#   remote_virtual_network_id = module.secure-network.vnet_id
-# }
+resource "azurerm_virtual_network_peering" "appTOsecure" {
+  name                      = "appTOsecure"
+  resource_group_name       = var.resource_group_name
+  virtual_network_name      = "app-network"
+  remote_virtual_network_id = module.secure-network.vnet_id
+}

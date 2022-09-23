@@ -173,14 +173,14 @@ global_tags = {
 
 # VPC
 security_vpc_name = "security-vpc-example"
-security_vpc_cidr = "10.100.0.0/16"
+security_vpc_cidr = "10.110.0.0/16"
 
 # Subnets
 security_vpc_subnets = {
   # Do not modify value of `set=`, it is an internal identifier referenced by main.tf.
-  "10.100.0.0/24" = { az = "us-east-2a", set = "mgmt" },
-  "10.100.1.0/24" = { az = "us-east-2a", set = "trust" },
-  "10.100.2.0/24" = { az = "us-east-2a", set = "untrust" }
+  "10.110.255.0/24" = { az = "us-east-2a", set = "mgmt" },
+  "10.110.0.0/24" = { az = "us-east-2a", set = "trust" },
+  "10.110.129.0/24" = { az = "us-east-2a", set = "untrust" }
 
 
 }
@@ -198,6 +198,11 @@ security_vpc_security_groups = {
       https = {
         description = "Permit HTTPS"
         type        = "ingress", from_port = "443", to_port = "443", protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"] # TODO: update here
+      }
+      all = {
+        description = "Permit HTTPS"
+        type        = "ingress", from_port = "0", to_port = "0", protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"] # TODO: update here
       }
       ssh = {
@@ -250,7 +255,7 @@ security_vpc_security_groups = {
 }
 
 # VM-Series
-vmseries_version = "10.2.2"
+vmseries_version = "10.1.6"
 awsvmseries = {
   vmseries01 = {
     az = "us-east-2a"

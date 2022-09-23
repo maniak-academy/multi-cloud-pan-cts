@@ -66,7 +66,6 @@ module "vmseries" {
   password            = random_password.pafwpassword.result
   img_version         = var.common_vmseries_version
   img_sku             = var.common_vmseries_sku
-
   interfaces = [
     {
       name                = "myfw-mgmt-interface"
@@ -96,7 +95,7 @@ module "vmseries" {
   bootstrap_options = join(";",
     [
       "type=dhcp-client",
-      "hostname=azure${var.me}${random_id.pansuffix.dec}",
+      "hostname=azure-${var.me}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
       "tplname=${var.me}${var.tplname}",
       "dgname=${var.me}${var.dgname}",

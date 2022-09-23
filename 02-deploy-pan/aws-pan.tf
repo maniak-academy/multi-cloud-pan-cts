@@ -35,6 +35,8 @@ module "awsvmseries" {
   name              = var.name
   ssh_key_name      = aws_key_pair.demo.key_name
   vmseries_version  = var.vmseries_version
+  vmseries_product_code = "e9yfvyj3uag5uo5j2hjikv74n"
+  
   interfaces = {
     for k, v in each.value.interfaces : k => {
       device_index       = v.device_index
@@ -49,8 +51,7 @@ module "awsvmseries" {
   bootstrap_options = join(";",
     [
       "type=dhcp-client",
-      "plugin-op-commands=aws-gwlb-inspect:enable,aws-gwlb-overlay-routing:enable",
-      "hostname=aws${var.me}${random_id.pansuffix.dec}",
+      "hostname=aws-${var.me}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
       "tplname=${var.me}${var.tplname}",
       "dgname=${var.me}${var.dgname}",

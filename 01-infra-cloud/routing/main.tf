@@ -73,28 +73,3 @@ resource "azurerm_subnet_route_table_association" "db" {
 }
 
 
-
-resource "azurerm_route_table" "shared-route-to-fw" {
-  name                = "shared-route-to-fw"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-
-  route {
-    name                   = "shared-route-to-fw"
-    address_prefix         = "10.0.0.0/8"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.110.0.4"
-  }
-
-  tags = {
-    environment = "Production"
-  }
-}
-
-
-resource "azurerm_subnet_route_table_association" "sharedmgmt_subnet" {
- subnet_id                 = var.sharedmgmt_subnet
- route_table_id            = azurerm_route_table.shared-route-to-fw.id
-}
-
-

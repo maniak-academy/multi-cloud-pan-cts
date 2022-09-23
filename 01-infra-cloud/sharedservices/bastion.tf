@@ -21,9 +21,9 @@ resource "azurerm_network_interface" "bastion" {
 
   ip_configuration {
     name                          = "bastionconfiguration"
-    subnet_id                     = var.sharedmgmt_subnet
+    subnet_id                     = var.mgmt_subnet
     private_ip_address_allocation = "Static"
-    private_ip_address = "10.0.2.102"
+    private_ip_address = "10.1.2.102"
   }
 }
 

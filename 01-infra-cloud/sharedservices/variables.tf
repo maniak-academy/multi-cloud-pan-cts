@@ -15,10 +15,13 @@ variable "name_prefix" {
   default     = "pantf"
   type        = string
 }
-variable "owner" {
 
+variable "owner" {
+  description = "The owner of the created Azure objects."
+  type        = string
 }
 
-variable "sharedmgmt_subnet" {
-
+variable "mgmt_subnet" {
+  description = "The subnet to use for the management interface."
+  type        = string
 }

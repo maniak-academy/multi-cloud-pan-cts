@@ -20,9 +20,9 @@ resource "azurerm_network_interface" "vault" {
 
   ip_configuration {
     name                          = "vaultconfiguration"
-    subnet_id                     = var.sharedmgmt_subnet
+    subnet_id                     = var.mgmt_subnet
     private_ip_address_allocation = "Static"
-    private_ip_address = "10.0.2.100"
+    private_ip_address = "10.1.2.100"
   }
 }
 

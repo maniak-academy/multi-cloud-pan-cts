@@ -68,29 +68,29 @@ module "vmseries" {
   img_sku             = var.common_vmseries_sku
   interfaces = [
     {
-      name                = "myfw-mgmt-interface"
-      subnet_id           = lookup(module.vnet.subnet_ids, "subnet-mgmt", null)
-      create_public_ip    = true
-     # enable_backend_pool = false
+      name             = "myfw-mgmt-interface"
+      subnet_id        = lookup(module.vnet.subnet_ids, "subnet-mgmt", null)
+      create_public_ip = true
+      #enable_backend_pool = false
     },
     {
-      name                 = "myfw-public"
-      subnet_id            = lookup(module.vnet.subnet_ids, "subnet-public", null)
-      create_public_ip    = true
-     # public_ip_address_id = azurerm_public_ip.PublicIP_1.id
-    #  lb_backend_pool_id   = module.inbound_lb.backend_pool_id
-     # enable_backend_pool  = true
+      name             = "myfw-public"
+      subnet_id        = lookup(module.vnet.subnet_ids, "subnet-public", null)
+      create_public_ip = true
+      #public_ip_address_id = azurerm_public_ip.PublicIP_1.id
+      #lb_backend_pool_id   = module.inbound_lb.backend_pool_id
+      #enable_backend_pool  = true
     },
     {
-      name                = "myfw-private"
-      subnet_id           = lookup(module.vnet.subnet_ids, "subnet-private", null)
-    #  lb_backend_pool_id  = module.outbound_lb.backend_pool_id
+      name      = "myfw-private"
+      subnet_id = lookup(module.vnet.subnet_ids, "subnet-private", null)
+      #lb_backend_pool_id  = module.outbound_lb.backend_pool_id
       #enable_backend_pool = true
 
-      # Optional static private IP
-     # private_ip_address = try(each.value.trust_private_ip, null)
+      #Optional static private IP
+      #private_ip_address = try(each.value.trust_private_ip, null)
     },
-   ]
+  ]
 
   bootstrap_options = join(";",
     [
@@ -98,7 +98,7 @@ module "vmseries" {
       "hostname=azure-${var.me}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
       "tplname=${var.me}${var.tplname}",
-      "dgname=${var.me}${var.dgname}",
+      "dgname=${var.me}${var.awsdgname}",
       "dns-primary=168.63.129.16",
       "dns-secondary=8.8.8.8",
       "vm-auth-key=481562602104904"

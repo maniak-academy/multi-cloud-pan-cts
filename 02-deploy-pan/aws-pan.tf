@@ -54,7 +54,7 @@ module "awsvmseries" {
       "hostname=aws-${var.me}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
       "tplname=${var.me}${var.tplname}",
-      "dgname=${var.me}${var.dgname}",
+      "dgname=${var.me}${var.awsdgname}",
       "dns-primary=169.254.169.253",
       "dns-secondary=8.8.8.8",
       "vm-auth-key=481562602104904"

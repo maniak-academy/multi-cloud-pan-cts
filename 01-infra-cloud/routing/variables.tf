@@ -19,5 +19,3 @@ variable "app_subnet" {
 variable "web_subnet" {
 
 }
-variable "sharedmgmt_subnet" {
-}

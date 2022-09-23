@@ -1,3 +1,6 @@
+
+### AZURE PAN ###
+
 virtual_network_name = "securevnet"
 address_space        = ["10.110.0.0/16"]
 #enable_zones         = true
@@ -84,7 +87,7 @@ network_security_groups = {
       },
     }
   }
-  "sg-public"  = {
+  "sg-public" = {
     location = "East US"
     rules = {
       "AllOutbound" = {
@@ -163,7 +166,8 @@ common_vmseries_sku     = "bundle1"
 
 
 
-# General
+### AWS PAN ###
+
 name   = "vmseries-example"
 region = "us-east-2"
 global_tags = {
@@ -179,7 +183,7 @@ security_vpc_cidr = "10.110.0.0/16"
 security_vpc_subnets = {
   # Do not modify value of `set=`, it is an internal identifier referenced by main.tf.
   "10.110.255.0/24" = { az = "us-east-2a", set = "mgmt" },
-  "10.110.0.0/24" = { az = "us-east-2a", set = "trust" },
+  "10.110.0.0/24"   = { az = "us-east-2a", set = "trust" },
   "10.110.129.0/24" = { az = "us-east-2a", set = "untrust" }
 
 
@@ -285,9 +289,20 @@ awsvmseries = {
   }
 }
 
-
-
 # Routes
 security_vpc_routes_outbound_destin_cidrs = ["0.0.0.0/0"]
 
+### GCP PAN ###
 
+# project         = "example"
+# gcpregion          = "us-central1"
+# gcpname            = "example-vmseries"
+# allowed_sources = "<list of IP CIDRs>"
+# ssh_keys        = "admin:<public key>"
+# vmseries_image  = "vmseries-flex-byol-1020"
+# bootstrap_options = {
+#   hostname           = "vms01"
+#   panorama-server    = "10.1.2.3"
+#   plugin-op-commands = "numa-perf-optimize:enable,set-dp-cores:2"
+#   type               = "dhcp-client"
+# }

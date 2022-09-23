@@ -13,15 +13,49 @@ resource "panos_panorama_template_stack" "stack" {
 }
 
 
-resource "panos_device_group_parent" "devicegroup" {
+resource "panos_device_group_parent" "azuredevicegroup" {
     count = length(var.me)
-    device_group = "${var.me[count.index]}devicegroup"
+    device_group = "${var.me[count.index]}azuredevicegroup"
     parent = "azure"
+    depends_on = [
+      panos_device_group.azuredevicegroup
+    ]
 }
 
-resource "panos_device_group" "devicegroup" {
+resource "panos_device_group" "azuredevicegroup" {
   count = length(var.me)
-  name  = "${var.me[count.index]}devicegroup"
+  name  = "${var.me[count.index]}azuredevicegroup"
+}
+
+
+
+resource "panos_device_group_parent" "awsdevicegroup" {
+    count = length(var.me)
+    device_group = "${var.me[count.index]}awsdevicegroup"
+    parent = "aws"
+    depends_on = [
+      panos_device_group.awsdevicegroup
+    ]
+}
+
+resource "panos_device_group" "awsdevicegroup" {
+  count = length(var.me)
+  name  = "${var.me[count.index]}awsdevicegroup"
+}
+
+
+resource "panos_device_group_parent" "gcpdevicegroup" {
+    count = length(var.me)
+    device_group = "${var.me[count.index]}gcpdevicegroup"
+    parent = "gcp"
+    depends_on = [
+      panos_device_group.gcpdevicegroup
+    ]
+}
+
+resource "panos_device_group" "gcpdevicegroup" {
+  count = length(var.me)
+  name  = "${var.me[count.index]}gcpdevicegroup"
 }
 
 
@@ -31,6 +65,5 @@ variable "me" {
   default = [
     "seb",
     "paul",
-    "frank",
   ]
 }

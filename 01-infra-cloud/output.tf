@@ -31,10 +31,6 @@ output "vault-public-ip" {
 output "app_network" {
   value = module.azure-network.app_network
 }
-output "shared_network" {
-  value = module.azure-network.shared_network
-}
-
 output "web-lb" {
   value = module.loadbalancer.web-lb
 }
@@ -44,4 +40,24 @@ output "app-lb" {
 output "db-lb" {
   value = module.loadbalancer.db-lb
 }
-  
+output "app_network_app_subnet" {
+  value = module.azure-network.app_subnet
+}
+output "app_network_db_subnet" {
+  value = module.azure-network.db_subnet
+}
+output "app_network_web_subnet" {
+  value = module.azure-network.web_subnet
+}
+output "app_network_mgmt_subnet" {
+  value = module.azure-network.mgmt_subnet
+}
+output "web-id" {
+  value = module.loadbalancer.web-id
+}
+output "app-id" {
+  value = module.loadbalancer.app-id
+}
+output "db-id" {
+  value = module.loadbalancer.db-id
+}

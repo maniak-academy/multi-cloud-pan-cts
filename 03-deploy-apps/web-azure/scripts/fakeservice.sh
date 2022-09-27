@@ -74,12 +74,12 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 cat << EOF > /etc/consul.d/fakeservice.hcl
 service {
-  id      = "${owner}-azure-web"
-  name    = "${owner}-azure-web"
-  tags    = ["${owner}-azure-web"]
+  id      = "${owner}-web"
+  name    = "${owner}-web"
+  tags    = ["${owner}-web"]
   port    = 9090
   check {
-    id       = "${owner}-azure-web"
+    id       = "${owner}-web"
     name     = "TCP on port 9090"
     tcp      = "localhost:9090"
     interval = "10s"

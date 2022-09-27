@@ -2,7 +2,7 @@
 resource "panos_panorama_address_group" "cts-addr-grp-app" {
   name          = "cts-addr-grp-${var.owner}-app"
   description   = "My internal APP servers"
-  dynamic_match = "'${var.owner}-azure-app' and '${var.owner}-aws-app'"
+  dynamic_match = "${var.owner}-app"
   device_group  = panos_device_group.devicegroup.name
 }
 
@@ -16,13 +16,13 @@ resource "panos_panorama_address_group" "cts-addr-grp-logging" {
 resource "panos_panorama_address_group" "cts-addr-grp-web" {
   name          = "cts-addr-grp-${var.owner}-web"
   description   = "My internal web servers"
-  dynamic_match = "'${var.owner}-azure-web' and '${var.owner}-aws-web'"
+  dynamic_match = "${var.owner}-web"
   device_group  = panos_device_group.devicegroup.name
 }
 
 resource "panos_panorama_address_group" "cts-addr-grp-api" {
   name          = "cts-addr-grp-${var.owner}-api"
   description   = "My internal web servers"
-  dynamic_match = "'${var.owner}-azure-api' and '${var.owner}-aws-api'"
+  dynamic_match = "${var.owner}-api"
   device_group  = panos_device_group.devicegroup.name
 }

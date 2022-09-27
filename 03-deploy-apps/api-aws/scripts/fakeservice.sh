@@ -10,6 +10,7 @@ sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get jq
 
+hostnamectl set-hostname {$HOSTNAME}
 
 #Download Consul
 CONSUL_VERSION="1.12.2"
@@ -62,6 +63,7 @@ cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
 datacenter = "AWSAcademyDC1"
 ui = true
+node_name = "${HOSTNAME}"
 retry_join = ["${consul_server_ip}"]
 EOF
 
@@ -74,14 +76,14 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 cat << EOF > /etc/consul.d/fakeservice.hcl
 service {
-  id      = "${owner}-aws-api"
-  name    = "${owner}-aws-api"
-  tags    = ["${owner}-aws-api"]
+  id      = "${owner}-api"
+  name    = "${owner}-api"
+  tags    = ["${owner}-api"]
   port    = 3000
   check {
-    id       = "${owner}-aws-api"
-    name     = "TCP on port 3000"
-    tcp      = "localhost:3000"
+    id       = "${owner}-api"
+    name     = "TCP on port 9094"
+    tcp      = "localhost:9094"
     interval = "10s"
     timeout  = "1s"
   }
@@ -103,30 +105,30 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 
-# sleep 10
-# cat << EOF > docker-compose.yml
-# version: "3.7"
-# services:
+sleep 10
+cat << EOF > docker-compose.yml
+version: "3.7"
+services:
 
-#   app:
-#     image: nicholasjackson/fake-service:v0.7.8
-#     environment:
-#       LISTEN_ADDR: 0.0.0.0:9094
-#       MESSAGE: "app response"
-#       NAME: "app"
-#       SERVER_TYPE: "http"
-#       HTTP_CLIENT_APPEND_REQUEST: "true"
-#     ports:
-#     - "9094:9094"
+  api:
+    image: nicholasjackson/fake-service:v0.7.8
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9094
+      MESSAGE: "api response"
+      NAME: "api"
+      SERVER_TYPE: "http"
+      HTTP_CLIENT_APPEND_REQUEST: "true"
+    ports:
+    - "9094:9094"
 
 
 
-# EOF
+EOF
 
-# sudo docker-compose up -d
+sudo docker-compose up -d
 
-sudo docker pull bkimminich/juice-shop
-sudo docker run -d -p 3000:3000 bkimminich/juice-shop
+# sudo docker pull bkimminich/juice-shop
+# sudo docker run -d -p 3000:3000 bkimminich/juice-shop
 
 
 

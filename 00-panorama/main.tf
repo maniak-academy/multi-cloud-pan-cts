@@ -62,6 +62,7 @@ variable "me" {
   type = list(string)
   default = [
     "seb",
+    "paul",
     "mike",
     "migara",
     "jason"

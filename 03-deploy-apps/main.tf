@@ -56,3 +56,4 @@ module "app-aws" {
   vpc_id = data.terraform_remote_state.environment.outputs.vpc_id
   aws_app_count = var.aws_app_count
 }
+

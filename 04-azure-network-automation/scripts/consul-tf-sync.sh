@@ -1,5 +1,5 @@
 #!/bin/bash
-export local_ipv4="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
+local_ipv4="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
 
 #Utils
 sudo apt-get install unzip
@@ -89,7 +89,7 @@ EOF
 #consul config
 cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
-datacenter = "academyDC1"
+datacenter = "AzureAcademyDC1"
 retry_join = ["${consul_server_ip}"]
 EOF
 
@@ -149,7 +149,7 @@ consul {
       service_name = "consul-terraform-sync"
       default_check {
         enabled = true
-        address = "http://$${local_ipv4}:8558"
+        address = "http://${local_ipv4}:8558"
       }
     }
 }
@@ -174,10 +174,10 @@ driver "terraform" {
 
 # Palo Alto Workflow Options
 terraform_provider "panos" {
-  alias = "panosaws"
+  alias = "panosazure"
   hostname = "${panos_mgmt_addr}"
-  username = "{{ with secret \"net_infra/aws-paloalto\" }}{{ .Data.data.username }}{{ end }}"
-  password = "{{ with secret \"net_infra/aws-paloalto\" }}{{ .Data.data.password }}{{ end }}"
+  username = "{{ with secret \"net_infra/azure-paloalto\" }}{{ .Data.data.username }}{{ end }}"
+  password = "{{ with secret \"net_infra/azure-paloalto\" }}{{ .Data.data.password }}{{ end }}"
 }
 
 ## Consul Terraform Sync Task Definitions
@@ -187,9 +187,9 @@ task {
   name = "Dynamic_Address_Group_PaloAlto_FW"
   description = "Automate population of dynamic address group"
   module = "github.com/maniak-academy/panos-nia-dag"
-  providers = ["panos.panosaws"]
+  providers = ["panos.panosazure"]
   condition "services" {
-    names = ["${owner}-aws-web", "${owner}-aws-app", "${owner}-aws-db", "${owner}-logging"]
+    names = ["${owner}-web", "${owner}-app", "${owner}-db", "${owner}-logging"]
   }  
   variable_files = ["/etc/consul-tf-sync.d/panos.tfvars"]
 }

@@ -15,6 +15,13 @@ provider "azurerm" {
   features {}
 }
 
+data "terraform_remote_state" "environment" {
+  backend = "local"
+
+  config = {
+    path = "../01-infra-cloud/terraform.tfstate"
+  }
+}
 
 data "terraform_remote_state" "fw" {
   backend = "local"
@@ -161,7 +168,7 @@ resource "tls_private_key" "cts" {
 }
 
 resource "azurerm_ssh_public_key" "cts" {
-  name                = "ctszure"
+  name                = "cts"
   resource_group_name = data.terraform_remote_state.environment.outputs.azurerm_resource_group
   location = data.terraform_remote_state.environment.outputs.location
   public_key          = tls_private_key.cts.public_key_openssh

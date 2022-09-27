@@ -20,6 +20,8 @@ sudo apt-get update
 
 sudo apt-get install consul-terraform-sync
 
+hostnamectl set-hostname {$HOSTNAME}
+
 #vault env
 export VAULT_ADDR="http://${vault_addr}"
 export VAULT_TOKEN=$vault_token
@@ -89,7 +91,8 @@ EOF
 #consul config
 cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
-datacenter = "academyDC1"
+datacenter = "AWSAcademyDC1"
+node_name = "${HOSTNAME}"
 retry_join = ["${consul_server_ip}"]
 EOF
 
@@ -174,10 +177,10 @@ driver "terraform" {
 
 # Palo Alto Workflow Options
 terraform_provider "panos" {
-  alias = "panosazure"
+  alias = "panosaws"
   hostname = "${panos_mgmt_addr}"
-  username = "{{ with secret \"net_infra/azure-paloalto\" }}{{ .Data.data.username }}{{ end }}"
-  password = "{{ with secret \"net_infra/azure-paloalto\" }}{{ .Data.data.password }}{{ end }}"
+  username = "{{ with secret \"net_infra/aws-paloalto\" }}{{ .Data.data.username }}{{ end }}"
+  password = "{{ with secret \"net_infra/aws-paloalto\" }}{{ .Data.data.password }}{{ end }}"
 }
 
 ## Consul Terraform Sync Task Definitions
@@ -187,9 +190,9 @@ task {
   name = "Dynamic_Address_Group_PaloAlto_FW"
   description = "Automate population of dynamic address group"
   module = "github.com/maniak-academy/panos-nia-dag"
-  providers = ["panos.panosazure"]
+  providers = ["panos.panosaws"]
   condition "services" {
-    names = ["${owner}-azure-web", "${owner}-azure-app", "${owner}-azure-db", "${owner}-logging"]
+    names = ["${owner}-web", "${owner}-app", "${owner}-db", "${owner}-logging"]
   }  
   variable_files = ["/etc/consul-tf-sync.d/panos.tfvars"]
 }

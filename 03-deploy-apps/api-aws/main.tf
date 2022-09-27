@@ -11,6 +11,10 @@ provider "aws" {
   region = var.region
 }
 
+resource "random_id" "server" {
+  byte_length = 4
+}
+
 resource "aws_instance" "api-server" {
   count = var.aws_api_count
   ami                    = "ami-0a59f0e26c55590e9"
@@ -20,7 +24,8 @@ resource "aws_instance" "api-server" {
   user_data              = base64encode(templatefile("${path.module}/scripts/fakeservice.sh", { 
     consul_server_ip = var.consul_server_ip,
     CONSUL_VERSION = "1.12.2",
-    owner = var.owner
+    owner = var.owner,
+    HOSTNAME = "${var.owner}-api-server${random_id.server.hex}"
   }))
 
   key_name               = aws_key_pair.demo.key_name

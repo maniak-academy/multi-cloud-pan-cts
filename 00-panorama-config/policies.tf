@@ -28,6 +28,18 @@ resource "panos_security_rule_group" "AccessRule" {
     categories            = ["any"]
     action                = "allow"
   }
+  rule {
+    name                  = "Allow Access API to APPs"
+    source_zones          = ["trust"]
+    source_addresses      = ["cts-addr-grp-${var.owner}-api"]
+    source_users          = ["any"]
+    destination_zones     = ["trust"]
+    destination_addresses = ["cts-addr-grp-${var.owner}-app"]
+    applications          = ["any"]
+    services              = ["any"]
+    categories            = ["any"]
+    action                = "allow"
+  }
 }
 
 

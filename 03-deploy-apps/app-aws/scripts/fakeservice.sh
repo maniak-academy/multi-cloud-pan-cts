@@ -57,11 +57,14 @@ sudo touch /etc/consul.d/consul.hcl
 sudo chown --recursive consul:consul /etc/consul.d
 sudo chmod 640 /etc/consul.d/consul.hcl
 
+hostnamectl set-hostname {$HOSTNAME}
+
 
 cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
 datacenter = "AWSAcademyDC1"
 ui = true
+node_name = "${HOSTNAME}"
 retry_join = ["${consul_server_ip}"]
 EOF
 
@@ -74,14 +77,14 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 cat << EOF > /etc/consul.d/fakeservice.hcl
 service {
-  id      = "${owner}-aws-app"
-  name    = "${owner}-aws-app"
-  tags    = ["${owner}-aws-app"]
+  id      = "${owner}-app"
+  name    = "${owner}-app"
+  tags    = ["${owner}-app"]
   port    = 3001
   check {
-    id       = "${owner}-aws-app"
-    name     = "TCP on port 3001"
-    tcp      = "localhost:3001"
+    id       = "${owner}-app"
+    name     = "TCP on port 9094"
+    tcp      = "localhost:9094"
     interval = "10s"
     timeout  = "1s"
   }
@@ -103,30 +106,30 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 
-# sleep 10
-# cat << EOF > docker-compose.yml
-# version: "3.7"
-# services:
+sleep 10
+cat << EOF > docker-compose.yml
+version: "3.7"
+services:
 
-#   app:
-#     image: nicholasjackson/fake-service:v0.7.8
-#     environment:
-#       LISTEN_ADDR: 0.0.0.0:9094
-#       MESSAGE: "app response"
-#       NAME: "app"
-#       SERVER_TYPE: "http"
-#       HTTP_CLIENT_APPEND_REQUEST: "true"
-#     ports:
-#     - "9094:9094"
+  app:
+    image: nicholasjackson/fake-service:v0.7.8
+    environment:
+      LISTEN_ADDR: 0.0.0.0:9094
+      MESSAGE: "app response"
+      NAME: "app"
+      SERVER_TYPE: "http"
+      HTTP_CLIENT_APPEND_REQUEST: "true"
+    ports:
+    - "9094:9094"
 
 
 
-# EOF
+EOF
 
-# sudo docker-compose up -d
+sudo docker-compose up -d
 
-sudo docker pull bkimminich/juice-shop
-sudo docker run -d -p 3001:3001 bkimminich/juice-shop
+# sudo docker pull bkimminich/juice-shop
+# sudo docker run -d -p 3001:3001 bkimminich/juice-shop
 
 
 

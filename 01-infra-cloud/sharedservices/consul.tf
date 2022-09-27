@@ -12,6 +12,7 @@ resource "azurerm_public_ip" "consul" {
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   sku                 = "Standard"
+  domain_name_label = "azureconsul-${random_string.consulparticipant.result}"
 }
 
 resource "azurerm_network_interface" "consul" {
@@ -55,7 +56,26 @@ resource "azurerm_lb_probe" "consul" {
   loadbalancer_id = azurerm_lb.consul.id
   name            = "consul-http"
   port            = 8500
+ }
+
+resource "azurerm_lb_probe" "consul2" {
+  loadbalancer_id = azurerm_lb.consul.id
+  name            = "consul2-8302"
+  port            = 8301
 }
+resource "azurerm_lb_probe" "consul3" {
+  loadbalancer_id = azurerm_lb.consul.id
+  name            = "consul3-8302"
+  port            = 8302
+}
+resource "azurerm_lb_probe" "consul4" {
+  loadbalancer_id = azurerm_lb.consul.id
+  name            = "consul4-8300"
+  port            = 8300
+}
+
+
+
 
 resource "azurerm_lb_rule" "consul" {
   loadbalancer_id                = azurerm_lb.consul.id
@@ -68,7 +88,37 @@ resource "azurerm_lb_rule" "consul" {
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.consul.id]
 }
 
+resource "azurerm_lb_rule" "consul2" {
+  loadbalancer_id                = azurerm_lb.consul.id
+  name                           = "consullan"
+  protocol                       = "Tcp"
+  frontend_port                  = 8301
+  backend_port                   = 8301
+  frontend_ip_configuration_name = "consulconfiguration"
+  probe_id                       = azurerm_lb_probe.consul2.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.consul.id]
+}
+resource "azurerm_lb_rule" "consul3" {
+  loadbalancer_id                = azurerm_lb.consul.id
+  name                           = "consulwan"
+  protocol                       = "Tcp"
+  frontend_port                  = 8302
+  backend_port                   = 8302
+  frontend_ip_configuration_name = "consulconfiguration"
+  probe_id                       = azurerm_lb_probe.consul3.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.consul.id]
+}
 
+resource "azurerm_lb_rule" "consul4" {
+  loadbalancer_id                = azurerm_lb.consul.id
+  name                           = "consul8300"
+  protocol                       = "Tcp"
+  frontend_port                  = 8300
+  backend_port                   = 8300
+  frontend_ip_configuration_name = "consulconfiguration"
+  probe_id                       = azurerm_lb_probe.consul4.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.consul.id]
+}
 resource "azurerm_linux_virtual_machine" "consul" {
   name                  = "consul-vm"
   location              = var.location
@@ -87,7 +137,12 @@ resource "azurerm_linux_virtual_machine" "consul" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  custom_data = base64encode(file("${path.module}/scripts/consul.sh"))
+    custom_data = base64encode(templatefile("${path.module}/scripts/consul.sh", { 
+    advertise_addr_wan = azurerm_public_ip.consul.ip_address,
+    CONSUL_URL="https://releases.hashicorp.com/consul-terraform-sync",
+    CTS_CONSUL_VERSION = "0.7.0"
+    CONSUL_VERSION = "1.12.2"
+  }))
 
   computer_name                   = "consul-vm"
   admin_username                  = "azureuser"
@@ -156,7 +211,17 @@ resource "azurerm_network_security_group" "consul" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-
+  security_rule {
+    name                       = "Serfwan"
+    priority                   = 1012
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8302"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
   security_rule {
     name                       = "SSH"
     priority                   = 1005

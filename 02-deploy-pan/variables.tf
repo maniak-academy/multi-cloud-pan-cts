@@ -15,10 +15,23 @@ variable "awsdgname" {
   default     = "awsdevicegroup"
 }
 
+variable "dgname" {
+  description = "Device group name to use for the VM-Series"
+  type        = string
+  default     = "devicegroup"
+}
+
+
 variable "azuredgname" {
   description = "Device group name to use for the VM-Series"
   type        = string
   default     = "azuredevicegroup"
+}
+
+variable "virtual_app_network_name" {
+  description = "Name of the virtual network to create"
+  type        = string
+  default     = "app-network"
 }
 
 variable "virtual_network_name" {}

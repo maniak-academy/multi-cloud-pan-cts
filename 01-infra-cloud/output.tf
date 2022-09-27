@@ -13,6 +13,9 @@ output "bastion-ip" {
 output "vaultlb" {
   value = "http://${module.sharedservices.vault_lb}"
 }
+output "vaultlb2" {
+  value = module.sharedservices.vault_lb
+}
 output "consullb" {
   value = "http://${module.sharedservices.consul_lb}"
 }
@@ -60,4 +63,22 @@ output "app-id" {
 }
 output "db-id" {
   value = module.loadbalancer.db-id
+}
+output "aws-public-subnet" {
+  value = module.aws-network.public_subnet
+}
+output "vpc_id" {
+  value = module.aws-network.vpc_id
+}
+output "aws_consul_public_url" {
+  value = "http://${module.sharedservices.aws_consul_public_url}"
+}
+output "aws_consul_public_name" {
+  value = module.sharedservices.aws_consul_public_url
+}
+output "aws_consul_private_ip" {
+  value = module.sharedservices.aws_consul_private_ip
+}
+output "azure-consul-public-url" {
+  value = "http://${module.sharedservices.azure_consul_public_url}"
 }

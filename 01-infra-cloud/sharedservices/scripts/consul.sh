@@ -15,6 +15,7 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 sudo apt-get update && sudo apt-get install terraform
 
 
+
 #Download Consul
 CONSUL_VERSION="1.12.2"
 curl --silent --remote-name https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
@@ -28,7 +29,7 @@ complete -C /usr/local/bin/consul consul
 
 #Install Consul Terraform Sync
 
-export CTS_CONSUL_VERSION="0.6.0-beta1"
+export CTS_CONSUL_VERSION="0.7.0"
 export CONSUL_URL="https://releases.hashicorp.com/consul-terraform-sync"
 
 
@@ -83,13 +84,13 @@ sudo chown --recursive consul:consul /etc/consul.d
 sudo chmod 640 /etc/consul.d/consul.hcl
 
 cat << EOF > /etc/consul.d/consul.hcl
-datacenter = "AcademyDC1"
+datacenter = "AzureAcademyDC1"
 data_dir = "/opt/consul"
 server = true
 bootstrap_expect = 1
-
 client_addr = "0.0.0.0"
 ui = true
+advertise_addr_wan = "${advertise_addr_wan}"
 EOF
 
 

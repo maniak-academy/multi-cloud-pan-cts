@@ -70,7 +70,7 @@ resource "azurerm_lb_rule" "bastion" {
 
 
 resource "azurerm_linux_virtual_machine" "bastion" {
-  name                  = "bastion-vm"
+  name                  = "logging-vm"
   location              = var.location
   resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.bastion.id]
@@ -89,7 +89,8 @@ resource "azurerm_linux_virtual_machine" "bastion" {
   }
   custom_data = base64encode(templatefile("${path.module}/scripts/logging.sh", { 
     consul_server_ip = azurerm_network_interface.consul.private_ip_address,
-    CONSUL_VERSION = "1.12.2" 
+    CONSUL_VERSION = "1.12.2",
+    owner = var.owner
   }))
 
   computer_name                   = "bastion-vm"

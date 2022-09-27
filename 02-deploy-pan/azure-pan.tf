@@ -55,6 +55,7 @@ module "vnet" {
 }
 
 
+
 module "vmseries" {
   source  = "PaloAltoNetworks/vmseries-modules/azurerm//modules/vmseries"
   version = "0.4.0"
@@ -95,10 +96,10 @@ module "vmseries" {
   bootstrap_options = join(";",
     [
       "type=dhcp-client",
-      "hostname=azure-${var.me}${random_id.pansuffix.dec}",
+      "hostname=azure-${data.terraform_remote_state.environment.outputs.owner}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
-      "tplname=${var.me}${var.tplname}",
-      "dgname=${var.me}${var.awsdgname}",
+      "tplname=${data.terraform_remote_state.environment.outputs.owner}${var.tplname}",
+      "dgname=${data.terraform_remote_state.environment.outputs.owner}${var.dgname}",
       "dns-primary=168.63.129.16",
       "dns-secondary=8.8.8.8",
       "vm-auth-key=481562602104904"

@@ -34,3 +34,14 @@ resource "azurerm_lb_rule" "db" {
   probe_id                       = azurerm_lb_probe.db.id
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.db.id]
 }
+
+# resource "azurerm_lb_outbound_rule" "db" {
+#   name                    = "dbOutboundRule"
+#   loadbalancer_id         = azurerm_lb.db.id
+#   protocol                = "Tcp"
+#   backend_address_pool_id = azurerm_lb_backend_address_pool.db.id
+
+#   frontend_ip_configuration {
+#     name = "dbconfiguration"
+#   }
+# }

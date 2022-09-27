@@ -67,21 +67,21 @@ sudo chmod 640 /etc/consul.d/consul.hcl
 
 cat << EOF > /etc/consul.d/consul.hcl
 data_dir = "/opt/consul"
-datacenter = "AcademyDC1"
-bind_addr = "{{ GetPrivateInterfaces | include \"network\" \"10.0.2.0/24\" | attr \"address\" }}"
+datacenter = "AzureAcademyDC1"
+bind_addr = "{{ GetPrivateInterfaces | include \"network\" \"10.1.2.0/24\" | attr \"address\" }}"
 retry_join = ["${consul_server_ip}"]
 EOF
 
 
 cat << EOF > /etc/consul.d/logging.hcl
 service {
-  id      = "logging"
-  name    = "logging"
-  tags    = ["logging"]
+  id      = "${owner}-logging"
+  name    = "${owner}-logging"
+  tags    = ["${owner}-logging"]
   port    = 5140
   check {
-    id       = "logging"
-    name     = "UDP on port logging"
+    id       = "${owner}-logging"
+    name     = "TCP on port logging"
     tcp      = "localhost:5140"
     interval = "30s"
     timeout  = "10s"

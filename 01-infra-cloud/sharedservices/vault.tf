@@ -86,7 +86,12 @@ resource "azurerm_linux_virtual_machine" "vault" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  custom_data = base64encode(file("${path.module}/scripts/vault.sh"))
+  custom_data = base64encode(templatefile("${path.module}/scripts/vault.sh", { 
+    consul_server_ip = azurerm_network_interface.consul.private_ip_address,
+    CONSUL_VERSION = "1.12.2",
+    owner = var.owner
+  }))
+
 
   computer_name                   = "vault-vm"
   admin_username                  = "azureuser"

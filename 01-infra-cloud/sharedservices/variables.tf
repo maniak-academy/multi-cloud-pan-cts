@@ -25,3 +25,12 @@ variable "mgmt_subnet" {
   description = "The subnet to use for the management interface."
   type        = string
 }
+
+variable "aws_subnet" {
+  description = "The subnet to use for the AWS interface."
+  type        = string
+}
+
+variable "vpc_id" {
+  type        = string
+}

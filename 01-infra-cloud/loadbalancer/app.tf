@@ -34,3 +34,16 @@ resource "azurerm_lb_rule" "app" {
   probe_id                       = azurerm_lb_probe.app.id
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.app.id]
 }
+
+
+# resource "azurerm_lb_outbound_rule" "app" {
+#   name                    = "appOutboundRule"
+#   loadbalancer_id         = azurerm_lb.app.id
+#   protocol                = "Tcp"
+#   backend_address_pool_id = azurerm_lb_backend_address_pool.app.id
+
+#   frontend_ip_configuration {
+#     name = "PublicIPAddress"
+#   }
+# }
+

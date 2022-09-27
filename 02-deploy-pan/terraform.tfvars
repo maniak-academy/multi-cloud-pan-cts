@@ -5,7 +5,6 @@ virtual_network_name = "securevnet"
 address_space        = ["10.110.0.0/16"]
 #enable_zones         = true
 tags = {}
-
 network_security_groups = {
   "sg-mgmt" = {
     location = "East US"
@@ -283,7 +282,7 @@ awsvmseries = {
         security_group    = "vmseries_untrust"
         source_dest_check = true
         subnet            = "untrust"
-        create_public_ip  = true
+        create_public_ip  = false
       }
     }
   }

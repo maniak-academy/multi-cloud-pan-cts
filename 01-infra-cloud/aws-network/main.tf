@@ -17,7 +17,6 @@ module "vpc" {
 
   tags = {
     Owner       = var.owner
-    Environment = var.environment
   }
 }
 

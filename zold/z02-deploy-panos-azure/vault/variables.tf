@@ -1,6 +1,0 @@
-variable "password" {
-  
-}
-variable "username" {
-  
-}

@@ -28,15 +28,15 @@ module "security_subnet_sets" {
 
 
 module "awsvmseries" {
-  source  = "PaloAltoNetworks/vmseries-modules/aws//modules/vmseries"
+  source   = "PaloAltoNetworks/vmseries-modules/aws//modules/vmseries"
   version  = "0.2.2"
   for_each = var.awsvmseries
 
-  name              = var.name
-  ssh_key_name      = aws_key_pair.demo.key_name
-  vmseries_version  = var.vmseries_version
+  name                  = var.name
+  ssh_key_name          = aws_key_pair.demo.key_name
+  vmseries_version      = var.vmseries_version
   vmseries_product_code = "e9yfvyj3uag5uo5j2hjikv74n"
-  
+
   interfaces = {
     for k, v in each.value.interfaces : k => {
       device_index       = v.device_index
@@ -51,10 +51,10 @@ module "awsvmseries" {
   bootstrap_options = join(";",
     [
       "type=dhcp-client",
-      "hostname=aws-${var.me}${random_id.pansuffix.dec}",
+      "hostname=aws-${data.terraform_remote_state.environment.outputs.owner}${random_id.pansuffix.dec}",
       "panorama-server=20.118.98.21",
-      "tplname=${var.me}${var.tplname}",
-      "dgname=${var.me}${var.awsdgname}",
+      "tplname=${data.terraform_remote_state.environment.outputs.owner}${var.tplname}",
+      "dgname=${data.terraform_remote_state.environment.outputs.owner}${var.dgname}",
       "dns-primary=169.254.169.253",
       "dns-secondary=8.8.8.8",
       "vm-auth-key=481562602104904"

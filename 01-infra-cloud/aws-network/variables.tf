@@ -1,15 +1,13 @@
-variable "resource_group_name" {
-  
-}
+
 variable "location" {
   
 }
 variable "owner" {
   
 }
-variable "environment" {
-  
-}
+
 variable "region" {
-  
+  description = "The AWS region to use."
+  default     = "us-east-2"
+  type        = string
 }

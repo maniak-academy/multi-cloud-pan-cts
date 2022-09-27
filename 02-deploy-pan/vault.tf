@@ -29,17 +29,17 @@ resource "vault_kv_secret_v2" "azurenet_infra" {
 
 
 
-# resource "vault_kv_secret_v2" "awsnet_infra" {
-#   mount               = vault_mount.infrastructure.path
-#   name                = "aws-paloalto"
-#   cas                 = 1
-#   delete_all_versions = true
-#   data_json = jsonencode(
-#     {
-#       ssh = "${random_password.pafwpassword.result}",
-#       username = "${var.username}"
+resource "vault_kv_secret_v2" "awsnet_infra" {
+  mount               = vault_mount.infrastructure.path
+  name                = "aws-paloalto"
+  cas                 = 1
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      password = "W3lcome098!",
+      username = "globaladmin"
 
-#     }
-#   )
-# }
+    }
+  )
+}
 

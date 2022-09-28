@@ -10,7 +10,7 @@ The following repo will demo the following:
 
 The objective of the code/demo is to provide an example on how to deploy and manage security policies in a Zero Day world. As new apps and services get deployed, we want the Consul-Terraform-Sync to automtaically build a Terraform Manifest and update the policies on all our Palo Alto PAN-OS devices. 
 
-![title](./images/consulnia.png)
+![title](./images/infraconsulnia.png)
 
 ![workflow](./images/workflow.png)
 

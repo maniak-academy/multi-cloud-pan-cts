@@ -2,23 +2,23 @@
 provider "panos" {
   hostname = "20.118.98.21"
   username = "panadmin"
-  password = ""
+  password = "2_tcmorvctzqxy1J"
 }
 
 resource "panos_panorama_template_stack" "stack" {
   count       = length(var.me)
   name        = "${var.me[count.index]}stack"
-  templates = ["pantemplate"]
+  templates   = ["pantemplate"]
   description = "description here"
 }
 
 
 resource "panos_device_group_parent" "devicegroup" {
-    count = length(var.me)
-    device_group = "${var.me[count.index]}devicegroup"
-    depends_on = [
-      panos_device_group.devicegroup
-    ]
+  count        = length(var.me)
+  device_group = "${var.me[count.index]}devicegroup"
+  depends_on = [
+    panos_device_group.devicegroup
+  ]
 }
 
 resource "panos_device_group" "devicegroup" {
@@ -65,6 +65,16 @@ variable "me" {
     "paul",
     "mike",
     "migara",
-    "jason"
+    "jason",
+    "group1",
+    "group2",
+    "group3",
+    "group4",
+    "group5",
+    "group6",
+    "group7",
+    "group8",
+    "group9",
+    "group10",
   ]
 }

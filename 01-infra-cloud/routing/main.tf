@@ -7,7 +7,7 @@ resource "azurerm_route_table" "web-route-to-fw" {
     name                   = "web-route-to-fw"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.110.0.4"
+    next_hop_in_ip_address = "10.110.0.21"
   }
 
 
@@ -33,7 +33,7 @@ resource "azurerm_route_table" "app-route-to-fw" {
     name                   = "app-route-to-fw"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.110.0.4"
+    next_hop_in_ip_address = "10.110.0.21"
   }
 
   tags = {
@@ -58,7 +58,7 @@ resource "azurerm_route_table" "db-route-to-fw" {
     name                   = "db-route-to-fw"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.110.0.4"
+    next_hop_in_ip_address = "10.110.0.21"
   }
 
   tags = {

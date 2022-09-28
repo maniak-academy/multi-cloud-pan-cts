@@ -43,8 +43,8 @@ module "vnet" {
   source  = "PaloAltoNetworks/vmseries-modules/azurerm//modules/vnet"
   version = "0.4.0"
 
-  location                = data.terraform_remote_state.environment.outputs.location
   virtual_network_name    = var.virtual_network_name
+  location                = data.terraform_remote_state.environment.outputs.location
   resource_group_name     = data.terraform_remote_state.environment.outputs.azurerm_resource_group
   address_space           = var.address_space
   network_security_groups = var.network_security_groups

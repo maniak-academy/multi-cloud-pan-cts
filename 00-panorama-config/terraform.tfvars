@@ -1,1 +1,1 @@
-owner = "seb"
+owner = "group10"

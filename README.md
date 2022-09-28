@@ -16,3 +16,6 @@ The objective of the code/demo is to provide an example on how to deploy and man
 
 
 More to come soon..
+
+
+https://aws.amazon.com/marketplace/pp/prodview-mn63yjbq37n4c?sr=0-4&ref_=beagle&applicationId=AWSMPContessa
